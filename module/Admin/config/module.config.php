@@ -43,6 +43,10 @@ return array(
         ),
     ),
     'view_manager' => array(
+        'template_map' => array(
+            'layout/admin'           => __DIR__ . '/../view/layout/admin.phtml',
+            'application/index/index' => __DIR__ . '/../view/admin/index/index.phtml',
+        ),
         'template_path_stack' => array(
             'Admin' => __DIR__ . '/../view',
         ),

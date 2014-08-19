@@ -11,6 +11,7 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Resolver\TemplatePathStack;
 
 class Module
 {
@@ -19,6 +20,8 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        
+        $eventManager->attach(MvcEvent::EVENT_RENDER,array($this,'changeLayout'),100);
     }
 
     public function getConfig()
@@ -35,5 +38,23 @@ class Module
                 ),
             ),
         );
+    }
+    
+    /*
+     * change layout
+     */
+    public function changeLayout(MvcEvent $event)
+    {
+        $isMobile = true;
+    
+        if($isMobile) {
+            $services = $event->getApplication()->getServiceManager();
+            $config = $services->get('config');
+            $stack = $services->get('ViewTemplatePathStack');
+            $stack->addPaths($config['mobile']['template_path_stack']);
+    
+            $layout = $event->getViewModel();
+            $layout->setTemplate('layout/mobile');
+        }
     }
 }

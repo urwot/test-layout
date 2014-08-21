@@ -43,6 +43,10 @@ return array(
         ),
     ),
     'view_manager' => array(
+        'template_map' => array(
+            'layout/blog'           => __DIR__ . '/../view/layout/blog.phtml',
+            'blog/index/index' => __DIR__ . '/../view/blog/index/index.phtml',
+         ),
         'template_path_stack' => array(
             'Blog' => __DIR__ . '/../view',
         ),

@@ -10,9 +10,11 @@
 namespace Admin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\EventManager\EventManagerInterface;
 
 class IndexController extends AbstractActionController
 {
+    
     public function indexAction()
     {
         return array();

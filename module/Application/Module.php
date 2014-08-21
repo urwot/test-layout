@@ -11,7 +11,8 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\View\Resolver\TemplatePathStack;
+//use Zend\View\Resolver\TemplatePathStack;
+use Zend\ModuleManager\ModuleManager;
 
 class Module
 {
@@ -21,14 +22,36 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
-        $eventManager->attach(MvcEvent::EVENT_RENDER,array($this,'changeLayout'),100);
+        //$eventManager->attach(MvcEvent::EVENT_DISPATCH,array($this,'changeLayout'),100);
+    }
+    
+    public function init(ModuleManager $manager)
+    {
+        $events = $manager->getEventManager();
+        $sharedEvents = $events->getSharedManager();
+        $sharedEvents->attach(__NAMESPACE__, 'dispatch', function($e) {
+            $controller = $e->getTarget();
+            /*
+             if (get_class($controller) == 'Admin\Controller\IndexController')         {
+             $controller->layout('layout/admin');
+             }
+            */
+            $controller->layout('layout/layout');
+    
+            $isMobile = true;
+    
+            if($isMobile) {
+                $controller->layout('layout/mobile');
+            }
+    
+        }, 100);
     }
 
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
-
+    
     public function getAutoloaderConfig()
     {
         return array(

@@ -11,11 +11,14 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\EventManager\EventManagerInterface;
 
 class IndexController extends AbstractActionController
 {
+    
     public function indexAction()
     {
+        
         return new ViewModel();
     }
 }
